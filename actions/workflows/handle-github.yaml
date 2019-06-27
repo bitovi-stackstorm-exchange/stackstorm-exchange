@@ -10,12 +10,13 @@ vars:
   # /refs/heads/master
   - branch: <% ctx().trigger_data.ref.split('/')[2] %>
   - branch_to_watch: "master"
-
+  - event_type: <% ctx().trigger_headers["X-Github-Event"] %>
+  
 tasks:
   route:
     action: core.noop
     next:
-      - when: <% succeeded() and ctx().branch = ctx().branch_to_watch and ctx().trigger_headers["X-Github-Event"] = "push" %>
+      - when: <% succeeded() and ctx().branch = ctx().branch_to_watch and ctx().event_type = "push" %>
         do: handle_push
       - when: <% succeeded %>
         publish:
