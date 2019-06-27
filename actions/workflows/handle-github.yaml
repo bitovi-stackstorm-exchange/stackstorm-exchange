@@ -9,7 +9,7 @@ tasks:
   route:
     action: core.noop
     next:
-      - when: <% succeeded() and ctx().trigger_data.contains("commits") and ctx().trigger_data.commits.len() %>
+      - when: <% succeeded() and ctx().trigger_data.containsKey("commits") and ctx().trigger_data.commits.len() %>
         do: handle_commit
 
 
