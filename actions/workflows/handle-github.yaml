@@ -8,7 +8,7 @@ input:
 
 vars:
   # /refs/heads/master
-  - branch: <% ctx().trigger_data.ref.split('/')[3] %>
+  - branch: <% ctx().trigger_data.ref.split('/')[2] %>
   - branch_to_watch: "master"
 
 tasks:
