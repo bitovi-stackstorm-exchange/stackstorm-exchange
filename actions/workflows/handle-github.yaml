@@ -16,6 +16,9 @@ tasks:
     next:
       - when: <% succeeded() and ctx().branch = ctx().branch_to_watch and ctx().trigger_headers["X-Github-Event"] = "push" and ctx().trigger_data.containsKey("commits") and ctx().trigger_data.commits.len() %>
         do: handle_master_commit
+      - when: <% succeeded %>
+        publish:
+          - branch: <% ctx().branch %>
 
 
   handle_master_commit:
