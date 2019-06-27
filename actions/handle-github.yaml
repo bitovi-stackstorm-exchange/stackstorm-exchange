@@ -8,3 +8,6 @@ parameters:
   trigger_data:
     required: true
     type: object
+  trigger_headers:
+    required: true
+    type: object

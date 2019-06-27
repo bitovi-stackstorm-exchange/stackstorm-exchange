@@ -4,17 +4,20 @@ description: Receiver for github webhooks
 
 input:
   - trigger_data
+  - trigger_headers
 
 tasks:
   route:
     action: core.noop
     next:
-      - when: <% succeeded() and ctx().trigger_data.containsKey("commits") and ctx().trigger_data.commits.len() %>
-        do: handle_commit
+      - when: <% succeeded() and ctx().trigger_headers.ref = "/refs/heads/master" and ctx().trigger_headers["X-Github-Event"] = "push" and ctx().trigger_data.containsKey("commits") and ctx().trigger_data.commits.len() %>
+        publish:
+          - branch: <% ctx().trigger_headers.ref.replace(regex('\/refs\/heads\/'), '') %>
+        do: handle_master_commit
 
 
-  handle_commit:
+  handle_master_commit:
     action: packs.install
     input:
       packs:
-        - "<% ctx().trigger_data.repository.url %>"
+        - "<% ctx().trigger_data.repository.url %>=<% ctx().branch %>"

@@ -12,3 +12,4 @@ action:
     ref: stackstormexchange.handle-github
     parameters:
       trigger_data: "{{trigger.body}}"
+      trigger_headers: "{{trigger.headers}}"
