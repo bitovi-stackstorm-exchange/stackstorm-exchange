@@ -7,7 +7,8 @@ input:
   - trigger_headers
 
 vars:
-  - branch: <% ctx().trigger_data.ref.replace(regex('/refs/head/'), '') %>
+  # /refs/heads/master
+  - branch: <% ctx().trigger_data.ref.split('/')[3] %>
   - branch_to_watch: "master"
 
 tasks:
