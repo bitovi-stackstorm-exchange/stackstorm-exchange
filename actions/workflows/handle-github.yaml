@@ -6,13 +6,15 @@ input:
   - trigger_data
   - trigger_headers
 
+vars:
+  - branch: <% ctx().trigger_data.ref.replace(regex('\/refs\/heads\/'), '') %>
+  - branch_to_watch: "master"
+
 tasks:
   route:
     action: core.noop
     next:
-      - when: <% succeeded() and ctx().trigger_headers.ref = "/refs/heads/master" and ctx().trigger_headers["X-Github-Event"] = "push" and ctx().trigger_data.containsKey("commits") and ctx().trigger_data.commits.len() %>
-        publish:
-          - branch: <% ctx().trigger_headers.ref.replace(regex('\/refs\/heads\/'), '') %>
+      - when: <% succeeded() and ctx().trigger_data.ref = ctx().branch_to_watch and ctx().trigger_headers["X-Github-Event"] = "push" and ctx().trigger_data.containsKey("commits") and ctx().trigger_data.commits.len() %>
         do: handle_master_commit
 
 
