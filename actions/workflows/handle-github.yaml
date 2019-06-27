@@ -1,0 +1,30 @@
+version: 1.0
+
+description: Receiver for github webhooks
+
+input:
+  - trigger_data
+
+vars:
+  - types:
+      - "commit"
+
+tasks:
+  route:
+    action: core.noop
+    next:
+      - when: <% succeeded() and ctx().trigger_data.type = "commit" %>
+        do: handle_commit
+
+        # if type no in types
+      - when: <% succeeded() and not ctx().types.contains(ctx().type) %>
+        do: fail
+        do: notify_not_found
+
+
+  handle_commit:
+    action: core.echo message="TODO handle_commit"
+
+
+  notify_not_found:
+    action: core.echo message="Webhook type not found"

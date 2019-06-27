@@ -1,0 +1,14 @@
+---
+name: handle-alerts
+description: Handle alerts
+enabled: true
+
+trigger:
+  type: core.st2.webhook
+  parameters:
+      url: "stackstorm-exchange/github-handle-webhook"
+
+action:
+    ref: stackstorm-exchange.handle-github
+    parameters:
+      trigger_data: "{{trigger.body}}"

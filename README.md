@@ -1,2 +1,1 @@
-# mock-vault
 # stackstorm-exchange

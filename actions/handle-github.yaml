@@ -1,0 +1,10 @@
+---
+name: handle-github
+description: Receiver for github webhooks
+runner_type: orquesta
+entry_point: workflows/handle-github.yaml
+enabled: true
+parameters:
+  trigger_data:
+    required: true
+    type: object

@@ -1,0 +1,7 @@
+---
+name : stackstorm-exchange
+ref: stackstormexchange
+description : stackstorm exchange pack
+version : 0.1.0
+author : Bitovi, LLC
+email : mick@bitovi.com
