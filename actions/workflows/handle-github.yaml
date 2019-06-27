@@ -15,14 +15,16 @@ tasks:
     action: core.noop
     next:
       - when: <% succeeded() and ctx().branch = ctx().branch_to_watch and ctx().trigger_headers["X-Github-Event"] = "push" %>
-        do: handle_master_commit
+        do: handle_push
       - when: <% succeeded %>
         publish:
           - branch: <% ctx().branch %>
 
 
-  handle_master_commit:
+  handle_push:
     action: packs.install
     input:
       packs:
         - "<% ctx().trigger_data.repository.url %>=<% ctx().branch %>"
+output:
+  - branch: <% ctx().branch %>
