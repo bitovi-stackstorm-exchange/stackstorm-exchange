@@ -10,10 +10,10 @@ tasks:
     action: core.noop
     next:
       - when: <% succeeded() and ctx().trigger_data.commits.len() %>
-        publish:
-          - repository: <% ctx().trigger_data.repository.url %>
         do: handle_commit
 
 
   handle_commit:
-    action: core.echo message="TODO handle_commit"
+    action: packs.install
+    input:
+      packs: <% ctx().trigger_data.repository.url %>
