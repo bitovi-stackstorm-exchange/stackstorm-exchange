@@ -16,4 +16,5 @@ tasks:
   handle_commit:
     action: packs.install
     input:
-      packs: "<% ctx().trigger_data.repository.url %>"
+      packs:
+        - "<% ctx().trigger_data.repository.url %>"
