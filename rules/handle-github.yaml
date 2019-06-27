@@ -9,6 +9,6 @@ trigger:
       url: "stackstorm-exchange/github-handle-webhook"
 
 action:
-    ref: stackstorm-exchange.handle-github
+    ref: stackstormexchange.handle-github
     parameters:
       trigger_data: "{{trigger.body}}"
