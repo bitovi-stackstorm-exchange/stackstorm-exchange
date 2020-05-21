@@ -23,11 +23,11 @@ tasks:
   configure_url:
     action: core.noop
     next:
-      - when: <% succeeded() and ctx().use_ssh %>
+      - when: <% succeeded() and not ctx().use_ssh %>
         do: handle_push
         publish:
           - github_url: "<% ctx().trigger_data.repository.url %>"
-      - when: <% succeeded() and not ctx().use_ssh %>
+      - when: <% succeeded() and ctx().use_ssh %>
         do: handle_push
         publish:
           - github_url: "<% ctx().trigger_data.repository.ssh_url %>"
