@@ -1,0 +1,16 @@
+---
+name: handle-alerts-ssh
+description: Handle alerts
+enabled: true
+
+trigger:
+  type: core.st2.webhook
+  parameters:
+      url: "stackstorm-exchange/github-handle-webhook-ssh"
+
+action:
+    ref: stackstormexchange.handle-github
+    parameters:
+      trigger_data: "{{trigger.body}}"
+      trigger_headers: "{{trigger.headers}}"
+      use_ssh: true

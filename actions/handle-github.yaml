@@ -11,3 +11,5 @@ parameters:
   trigger_headers:
     required: true
     type: object
+  use_ssh:
+    type: boolean

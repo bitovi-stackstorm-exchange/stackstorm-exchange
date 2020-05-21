@@ -5,6 +5,7 @@ description: Receiver for github webhooks
 input:
   - trigger_data
   - trigger_headers
+  - use_ssh
 
 vars:
   # /refs/heads/master
@@ -17,14 +18,25 @@ tasks:
     action: core.noop
     next:
       - when: <% succeeded() and ctx().branch = ctx().branch_to_watch and ctx().event_type = "push" %>
-        do: handle_push
+        do: configure_url
 
+  configure_url:
+    action: core.noop
+    next:
+      - when: <% succeeded() and ctx().use_ssh %>
+        do: handle_push
+        publish:
+          - github_url: "<% ctx().trigger_data.repository.url %>"
+      - when: <% succeeded() and not ctx().use_ssh %>
+        do: handle_push
+        publish:
+          - github_url: "<% ctx().trigger_data.repository.ssh_url %>"
 
   handle_push:
     action: packs.install
     input:
       packs:
-        - "<% ctx().trigger_data.repository.url %>=<% ctx().branch %>"
+        - "<% ctx().github_url %>=<% ctx().branch %>"
 
 output:
   - branch: <% ctx().branch %>
